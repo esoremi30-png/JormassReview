@@ -225,89 +225,52 @@
     border-top:1px solid var(--line);color:#8a8375;font-size:.8rem;
   }
 
-  /* ---- OnlineFirst Hub branding ---- */
-.onlinefirst-bar{
-  background:#ffffff;
-  color:#0f172a;
-  border-top:10px solid #262626;
-  border-bottom:1px solid #dbe3ee;
-}
-
-.onlinefirst-inner{
-  max-width:920px;
-  margin:0 auto;
-  padding:14px 24px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:24px;
-}
-
-.onlinefirst-brand{
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-
-.onlinefirst-wordmark{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.onlinefirst-wordmark-main{
-  font-family:var(--sans);
-  font-size:1.05rem;
-  font-weight:700;
-  color:#0f172a;
-  letter-spacing:-.02em;
-}
-
-.onlinefirst-hub-badge{
-  display:inline-flex;
-  align-items:center;
-  padding:4px 9px;
-  border-radius:999px;
-  border:1px solid #cfe0ff;
-  background:#f3f7ff;
-  color:#2563eb;
-  font-family:var(--sans);
-  font-size:.62rem;
-  font-weight:700;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-}
-
-.onlinefirst-copy{
-  color:#64748b;
-  font-size:.78rem;
-}
-
-.onlinefirst-label{
-  font-family:var(--sans);
-  font-size:.72rem;
-  font-weight:600;
-  color:#64748b;
-  white-space:nowrap;
-}
-
-@media (max-width:640px){
-  .onlinefirst-inner{
-    align-items:flex-start;
-    flex-direction:column;
-    gap:10px;
+  /* ---- OnlineFirst / Sunnik branding ---- */
+  .sunnik-topbar{
+    background:#ffffff;
+    border-bottom:1px solid #e7e5df;
+  }
+  .sunnik-topbar-inner{
+    max-width:1040px;
+    margin:0 auto;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .sunnik-hub-pill{
+    font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.02em;
+    color:#2f6fd6;background:#e7f0fd;border:1px solid #cfe1fb;
+    padding:5px 12px;border-radius:20px;white-space:nowrap;
   }
 
-  .onlinefirst-brand{
-    align-items:flex-start;
-    flex-direction:column;
-    gap:6px;
+  .sunnik-hero{
+    background:radial-gradient(ellipse 80% 100% at 50% 0%, #16213a 0%, #0a0f1e 65%);
+    color:#fff;
+    padding:56px 24px 48px;
+    text-align:center;
   }
-
-  .onlinefirst-label{
-    white-space:normal;
+  .sunnik-hero-inner{max-width:760px;margin:0 auto}
+  .sunnik-studio-pill{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;
+    color:#5ec8f0;background:rgba(94,200,240,.08);border:1px solid rgba(94,200,240,.35);
+    padding:7px 16px;border-radius:20px;margin-bottom:22px;text-transform:uppercase;
   }
-}
+  .sunnik-hero h1{
+    font-family:var(--sans);font-weight:800;font-size:2.6rem;line-height:1.1;
+    margin:0 0 18px;letter-spacing:-.01em;
+  }
+  .sunnik-hero h1 .grad{
+    background:linear-gradient(90deg,#4fc3f7,#3f7ff0);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sunnik-hero p{
+    color:#9fb0c4;font-size:1.02rem;line-height:1.6;max-width:56ch;margin:0 auto;
+  }
+  @media (max-width:640px){
+    .sunnik-hero h1{font-size:1.9rem}
+  }
 
   /* ---- approval / next-step section ---- */
   .approval-section{
@@ -401,12 +364,10 @@
   }
 
   @media (max-width:640px){
-    .onlinefirst-inner{
-      align-items:flex-start;
-      flex-direction:column;
-      gap:8px;
+    .sunnik-topbar-inner{
+      flex-wrap:wrap;
+      row-gap:8px;
     }
-    .onlinefirst-label{white-space:normal}
     .approval-card{padding:24px 20px}
     .approval-actions{flex-direction:column}
     .approval-btn{width:100%}
@@ -416,16 +377,17 @@
 </head>
 <body>
 
-<div class="onlinefirst-bar">
-  <div class="onlinefirst-inner">
-    <div class="onlinefirst-brand">
-      <div class="onlinefirst-mark">OF</div>
-      <div class="onlinefirst-copy">
-        <strong>Welcome to OnlineFirst</strong>
-        <span>Website review, redesign and digital experience proposal</span>
-      </div>
-    </div>
-    <div class="onlinefirst-label">Prepared for JORMASS</div>
+<div class="sunnik-topbar">
+  <div class="sunnik-topbar-inner">
+    <div class="sunnik-hub-pill">ONLINEFIRST HUB</div>
+  </div>
+</div>
+
+<div class="sunnik-hero">
+  <div class="sunnik-hero-inner">
+    <div class="sunnik-studio-pill">✦ ONLINEFIRST STUDIO</div>
+    <h1>Welcome to <span class="grad">OnlineFirst</span></h1>
+    <p>This JORMASS website review and redesign proposal is delivered under OnlineFirst — combining clean engineering with AI-powered design workflows.</p>
   </div>
 </div>
 
