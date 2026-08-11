@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JORMASS — Review &amp; Redesign Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2b3a;
+    --ink-soft:#3c4c5e;
+    --paper:#f6f3ec;
+    --card:#ffffff;
+    --line:#d8d0bd;
+    --gold:#b8863c;
+    --gold-soft:#f1e6d1;
+    --green:#3f6b4a;
+    --green-soft:#e7efe6;
+    --warn:#a4432b;
+    --warn-soft:#fae3da;
+    --mono:'IBM Plex Mono',monospace;
+    --serif:'Source Serif 4',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.65;
+    padding-bottom:70px;
+  }
+  a{color:var(--green)}
+
+  /* ---- top masthead ---- */
+  .masthead{
+    background:var(--ink);
+    color:#f6f3ec;
+    padding:50px 24px 34px;
+  }
+  .masthead-inner{max-width:920px;margin:0 auto}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .masthead h1{
+    font-family:var(--serif);
+    font-size:2.3rem;
+    font-weight:700;
+    margin:0 0 10px;
+    line-height:1.2;
+  }
+  .masthead p.sub{
+    font-family:var(--serif);
+    font-style:italic;
+    color:#c9d2da;
+    margin:0 0 20px;
+    font-size:1.05rem;
+  }
+  .vitals{
+    display:flex;
+    flex-wrap:wrap;
+    gap:22px;
+    font-family:var(--mono);
+    font-size:.78rem;
+    color:#c9d2da;
+    border-top:1px solid #33465a;
+    padding-top:16px;
+  }
+  .vitals strong{color:var(--gold);font-weight:500}
+
+  main{max-width:920px;margin:0 auto;padding:0 24px}
+  section{margin-top:52px}
+  h2{
+    font-family:var(--serif);
+    font-size:1.5rem;
+    font-weight:700;
+    border-bottom:2px solid var(--gold-soft);
+    padding-bottom:10px;
+    margin-bottom:20px;
+    color:var(--ink);
+  }
+  h3{font-family:var(--serif);font-size:1.1rem;margin:0 0 8px}
+  p{color:var(--ink-soft)}
+
+  .lede{font-size:1.02rem;color:var(--ink-soft)}
+
+  /* ---- verdict recap ---- */
+  .verdict{
+    display:flex;gap:18px;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:22px 26px;
+  }
+  .score{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--warn);flex-shrink:0}
+  .score.up{color:var(--green)}
+  .verdict p{margin:0;font-size:.95rem}
+
+  /* ---- diagnosis grid recap (condensed) ---- */
+  .chip-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .chip{
+    font-family:var(--mono);font-size:.75rem;
+    background:var(--warn-soft);color:var(--warn);
+    padding:6px 12px;border-radius:20px;
+  }
+
+  /* ---- before / after table ---- */
+  table.compare{
+    width:100%;border-collapse:collapse;margin-top:18px;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    font-size:.92rem;
+  }
+  table.compare th{
+    background:var(--ink);color:#f6f3ec;text-align:left;padding:12px 16px;
+    font-family:var(--mono);font-weight:500;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;
+  }
+  table.compare td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.compare tr:last-child td{border-bottom:none}
+  table.compare td.before{color:var(--warn)}
+  table.compare td.after{color:var(--green)}
+  table.compare td.before::before{content:"✕ ";font-weight:700}
+  table.compare td.after::before{content:"✓ ";font-weight:700}
+
+  /* ---- content architecture tree ---- */
+  .tree{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:26px 28px;font-family:var(--mono);font-size:.86rem;line-height:2;
+    overflow-x:auto;
+  }
+  .tree .l1{color:var(--ink);font-weight:600}
+  .tree .l2{color:var(--ink-soft);padding-left:22px}
+  .tree .l3{color:var(--green);padding-left:44px}
+  .tree .note{color:#9a9184;font-style:italic}
+
+  .arch-rationale{margin-top:20px}
+  .arch-rationale .col{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:18px 20px;margin-bottom:14px;
+  }
+  .arch-rationale .col h4{
+    margin:0 0 6px;font-family:var(--serif);font-size:1rem;color:var(--ink);
+  }
+  .arch-rationale .col p{margin:0;font-size:.92rem}
+
+  /* ---- redesign mockup frame ---- */
+  .mock-frame{
+    border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;margin-top:22px;
+    box-shadow:0 18px 40px -22px rgba(28,43,58,.35);
+  }
+  .mock-browserbar{
+    background:#e9e3d3;padding:9px 14px;display:flex;gap:6px;align-items:center;
+  }
+  .mock-dot{width:9px;height:9px;border-radius:50%;background:#c9bfa4}
+
+  .mock-page{background:var(--card)}
+  .mock-nav{
+    background:var(--ink);color:#f6f3ec;
+    padding:16px 28px;display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;
+  }
+  .mock-nav .brand{font-family:var(--serif);font-size:1rem;font-weight:700;letter-spacing:0}
+  .mock-nav .links{display:flex;gap:18px;color:#c9d2da}
+
+  .mock-hero{
+    padding:34px 28px 26px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#fff, #fbf9f4);
+  }
+  .mock-hero .eyebrow{color:var(--gold);font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+  .mock-hero h3{font-size:1.4rem;margin-bottom:8px}
+  .mock-hero p{font-size:.88rem;max-width:60ch}
+  .mock-vitals{
+    display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;
+    font-family:var(--mono);font-size:.7rem;color:var(--ink-soft);
+  }
+  .mock-vitals span{background:var(--gold-soft);padding:4px 10px;border-radius:4px;color:#8a6321}
+
+  .mock-body{padding:28px;display:grid;grid-template-columns:2fr 1fr;gap:26px}
+  @media (max-width:640px){.mock-body{grid-template-columns:1fr}}
+
+  .mock-toc-item{
+    border-bottom:1px solid var(--line);padding:14px 0;
+  }
+  .mock-toc-item:first-child{padding-top:0}
+  .mock-toc-item .n{font-family:var(--mono);color:var(--gold);font-size:.75rem;margin-right:8px}
+  .mock-toc-item h4{margin:2px 0 4px;font-family:var(--serif);font-size:.98rem}
+  .mock-toc-item .byline{font-size:.78rem;color:var(--ink-soft);margin-bottom:6px}
+  .mock-toc-item .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .mock-toc-item .tag{font-family:var(--mono);font-size:.65rem;background:var(--green-soft);color:var(--green);padding:2px 8px;border-radius:3px}
+
+  .mock-sidebar .box{
+    background:var(--paper);border:1px solid var(--line);border-radius:8px;
+    padding:16px;margin-bottom:14px;
+  }
+  .mock-sidebar .box h5{
+    font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink-soft);margin:0 0 10px;
+  }
+  .mock-sidebar .metric{display:flex;justify-content:space-between;font-size:.82rem;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .mock-sidebar .metric:last-child{border-bottom:none}
+  .mock-sidebar .metric strong{color:var(--ink)}
+  .spine-tab{
+    position:absolute;top:0;right:0;background:var(--green);color:#fff;
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;
+    padding:5px 10px;border-radius:0 0 0 8px;
+  }
+  .mock-page{position:relative}
+
+  /* ---- signature callout ---- */
+  .signature{
+    background:var(--ink);color:#f6f3ec;border-radius:10px;
+    padding:22px 26px;margin-top:20px;
+  }
+  .signature .tag{font-family:var(--mono);font-size:.7rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .signature p{color:#dbe1e6;margin:0;font-size:.94rem}
+
+  footer{
+    max-width:920px;margin:60px auto 0;padding:20px 24px 0;
+    border-top:1px solid var(--line);color:#8a8375;font-size:.8rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Updated Review — Redesign Proposal Included</div>
+    <h1>JORMASS: from OJS default to a journal that reads as international-standard</h1>
+    <p class="sub">Journal of Research in Management and Social Sciences · College of Management Sciences, Michael Okpara University of Agriculture, Umudike</p>
+    <div class="vitals">
+      <div><strong>ISSN Online</strong> 3093-0456</div>
+      <div><strong>ISSN Print</strong> 2536-7412</div>
+      <div><strong>Platform</strong> OJS 3.3.0.14 (unmodified theme)</div>
+      <div><strong>Reviewed</strong> 11 Aug 2026</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section>
+    <h2>Recap: where the site stands today</h2>
+    <p class="lede">The earlier review found JORMASS to be a genuine, university-affiliated journal — real ISSNs, Crossref DOI registration, open access under CC BY 4.0 — running on an untouched default Open Journal Systems theme. The scholarship looks legitimate; the presentation does not yet earn the trust that scholarship deserves.</p>
+    <div class="verdict">
+      <div class="score">C&minus;</div>
+      <p>Current state: legitimate content, generic and under-maintained presentation. Placeholder text ("Block title") left in the sidebar, a stale 2023-dated announcement pointing at a 2026 issue, no visible peer-review transparency, and zero visual identity beyond a small crest.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">No peer-review transparency</span>
+      <span class="chip">Unedited placeholder text</span>
+      <span class="chip">Stale announcement date</span>
+      <span class="chip">No editorial board visibility</span>
+      <span class="chip">Generic default theme</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>What "international standard" actually means here</h2>
+    <p>This isn't a subjective polish question — bodies like <strong>DOAJ</strong> (Directory of Open Access Journals) and <strong>COPE</strong> (Committee on Publication Ethics) publish concrete criteria that reputable journals are expected to meet on their websites. The redesign below is built around closing those specific gaps, not just making the page prettier:</p>
+    <table class="compare">
+      <tr><th>Standard expects</th><th>JORMASS today</th><th>Redesign delivers</th></tr>
+      <tr>
+        <td>Clear, dated peer-review process description</td>
+        <td class="before">Not visible on the site</td>
+        <td class="after">Dedicated "Peer Review" page with a visual workflow and typical turnaround time</td>
+      </tr>
+      <tr>
+        <td>Named editorial board with affiliations</td>
+        <td class="before">Buried one click deep, no photos or ORCID links</td>
+        <td class="after">Editorial board surfaced in main navigation with ORCID and affiliation for every member</td>
+      </tr>
+      <tr>
+        <td>Transparent, itemized publication fees with waiver policy</td>
+        <td class="before">Two line items and a payment link, no waiver mention</td>
+        <td class="after">Fee breakdown page explaining what each charge covers, plus a stated waiver/discount policy</td>
+      </tr>
+      <tr>
+        <td>Machine-readable, citable article metadata</td>
+        <td class="before">Title and page range only</td>
+        <td class="after">Abstract, keywords, DOI, and citation-ready metadata on every article listing</td>
+      </tr>
+      <tr>
+        <td>Active, accurately dated announcements</td>
+        <td class="before">2023-dated call for a 2026 issue</td>
+        <td class="after">Editorial calendar with submission and publication deadlines kept current</td>
+      </tr>
+      <tr>
+        <td>Distinct visual identity signaling active stewardship</td>
+        <td class="before">Unmodified OJS default theme</td>
+        <td class="after">Custom masthead, type system, and color identity rooted in the university's agribusiness heritage</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Content architecture</h2>
+    <p>The current site is essentially one long homepage with a thin "About" cluster behind it. An international-standard journal site separates <em>discovery</em> (find and cite an article), <em>trust</em> (verify the journal is legitimate), and <em>participation</em> (submit or review) into distinct, well-signposted areas.</p>
+    <div class="tree">
+      <div class="l1">Home — current issue TOC, journal vitals, latest announcement</div>
+      <div class="l2">About</div>
+      <div class="l3">Aims &amp; Scope</div>
+      <div class="l3">Editorial Board <span class="note">— photos, affiliation, ORCID</span></div>
+      <div class="l3">Peer Review Process <span class="note">— workflow diagram, typical timeline</span></div>
+      <div class="l3">Publication Ethics <span class="note">— COPE statement, retraction policy</span></div>
+      <div class="l3">Open Access &amp; Licensing</div>
+      <div class="l2">For Authors</div>
+      <div class="l3">Submission Guidelines &amp; Manuscript Template</div>
+      <div class="l3">Article Processing Charges <span class="note">— itemized, with waiver policy</span></div>
+      <div class="l3">Editorial Calendar <span class="note">— live deadlines, not static text</span></div>
+      <div class="l2">Issues</div>
+      <div class="l3">Current Issue</div>
+      <div class="l3">Archive by Volume</div>
+      <div class="l2">Indexing &amp; Metrics</div>
+      <div class="l3">Crossref · DOAJ · CLOCKSS · Google Scholar badges, each linking out to the live listing</div>
+      <div class="l2">Contact &amp; Editorial Correspondence</div>
+    </div>
+
+    <div class="arch-rationale">
+      <div class="col">
+        <h4>Why split "About" into five pages instead of one</h4>
+        <p>Each of those five topics (scope, board, review process, ethics, licensing) is something a specific visitor type is scanning for in isolation — a prospective author checking ethics policy has a different need than a librarian checking licensing. One long page forces everyone to scroll past what they don't need.</p>
+      </div>
+      <div class="col">
+        <h4>Why indexing gets its own page instead of homepage logos</h4>
+        <p>Logos alone (as on the current site) are unverifiable — anyone can paste a Crossref logo. Linking each badge to the journal's live, external listing on that index turns a claim into something a skeptical reader can check in one click.</p>
+      </div>
+      <div class="col">
+        <h4>Why the editorial calendar replaces static announcements</h4>
+        <p>The current "Call for Papers" is a single hand-edited paragraph that quietly went stale. A calendar of submission and publication dates, updated once per cycle rather than freehand, is far less likely to drift out of sync with reality.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Redesign preview: homepage</h2>
+    <p>Design direction ties the visual identity to something true about the journal rather than a generic academic template: this is a management-and-social-science journal published by a college of an <em>agricultural</em> university. The palette borrows a harvest gold and field green against a deep ink navy — scholarly authority with a specific, local point of origin — instead of a stock blue-and-white "university portal" look.</p>
+
+    <div class="mock-frame">
+      <div class="mock-browserbar">
+        <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+      </div>
+      <div class="mock-page">
+        <span class="spine-tab">VOL. 12 · NO. 1</span>
+        <div class="mock-nav">
+          <div class="brand">JORMASS</div>
+          <div class="links">
+            <span>ABOUT</span><span>FOR AUTHORS</span><span>ISSUES</span><span>INDEXING</span><span>SUBMIT</span>
+          </div>
+        </div>
+        <div class="mock-hero">
+          <div class="eyebrow">Biannual · Open Access · College of Management Sciences</div>
+          <h3>Journal of Research in Management &amp; Social Sciences</h3>
+          <p>Peer-reviewed research on management, finance, and policy, with a standing focus on the agri-food economy of Sub-Saharan Africa.</p>
+          <div class="mock-vitals">
+            <span>ISSN 3093-0456 (Online)</span>
+            <span>DOI Prefix 10.xxxx/jormass</span>
+            <span>Median review time: 8 weeks</span>
+          </div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-toc">
+            <div class="mock-toc-item">
+              <h4><span class="n">01</span>Assessing the Dynamics of Green Finance and its Impact on Agricultural Productivity in Nigeria</h4>
+              <div class="byline">P. E. Ugwu, I. J. Ezeudu, O. Odili · pp. 1–13</div>
+              <div class="tags"><span class="tag">Peer Reviewed</span><span class="tag">CC BY 4.0</span><span class="tag">DOI Linked</span></div>
+            </div>
+            <div class="mock-toc-item">
+              <h4><span class="n">02</span>Impact of Financial Intermediation on Economic Growth in Nigeria</h4>
+              <div class="byline">K. O. Okoro · pp. 14–18</div>
+              <div class="tags"><span class="tag">Peer Reviewed</span><span class="tag">CC BY 4.0</span><span class="tag">DOI Linked</span></div>
+            </div>
+            <div class="mock-toc-item">
+              <h4><span class="n">03</span>Artificial Intelligence and Customer Relationship Management in Nigeria's Telecom Sector</h4>
+              <div class="byline">U. E. Okere, C. P. Nwachukwu, C. C. Ollawa · pp. 19–28</div>
+              <div class="tags"><span class="tag">Peer Reviewed</span><span class="tag">CC BY 4.0</span><span class="tag">DOI Linked</span></div>
+            </div>
+          </div>
+          <div class="mock-sidebar">
+            <div class="box">
+              <h5>Journal at a Glance</h5>
+              <div class="metric"><span>Acceptance rate</span><strong>38%</strong></div>
+              <div class="metric"><span>Avg. review time</span><strong>8 wks</strong></div>
+              <div class="metric"><span>Articles in 2026</span><strong>13</strong></div>
+            </div>
+            <div class="box">
+              <h5>Indexed In</h5>
+              <div class="metric"><span>Crossref</span><strong>✓</strong></div>
+              <div class="metric"><span>DOAJ</span><strong>✓</strong></div>
+              <div class="metric"><span>CLOCKSS</span><strong>✓</strong></div>
+            </div>
+            <div class="box">
+              <h5>Next Deadline</h5>
+              <div class="metric"><span>Vol. 12, No. 2 submissions</span><strong>30 Sep 2026</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="signature">
+      <div class="tag">Signature element</div>
+      <p>The corner spine-tab reading the current volume and issue number is the one recurring motif carried across every page — a nod to the physical bound-journal spine you'd find on a library shelf, reinterpreted as a fixed wayfinding marker so a reader always knows exactly which issue they're in, without it turning into decoration for its own sake.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the redesign fixes, concretely</h2>
+    <table class="compare">
+      <tr><th>Area</th><th>Before</th><th>After</th></tr>
+      <tr><td>Visual identity</td><td class="before">Unmodified OJS default theme, small crest only</td><td class="after">Custom masthead, type system (serif display / sans body / mono metadata), harvest-gold and field-green identity rooted in the university's agricultural mandate</td></tr>
+      <tr><td>Article listings</td><td class="before">Title and page range only</td><td class="after">Abstract, byline, page range, peer-review badge, license badge, DOI link on every entry</td></tr>
+      <tr><td>Trust signals</td><td class="before">Static logos with no verification path</td><td class="after">Live acceptance rate, review time, and article count; indexing badges link to external verification</td></tr>
+      <tr><td>Editorial board</td><td class="before">One click deep, text list only</td><td class="after">Main navigation item; affiliation and ORCID per member</td></tr>
+      <tr><td>Fees</td><td class="before">Two line items, no context</td><td class="after">Dedicated page explaining what each charge funds, plus stated waiver policy</td></tr>
+      <tr><td>Announcements</td><td class="before">Hand-edited paragraph, went stale</td><td class="after">Structured editorial calendar with explicit deadlines</td></tr>
+      <tr><td>Housekeeping</td><td class="before">Leftover "Block title" placeholder in sidebar</td><td class="after">No default CMS text left unedited anywhere in the template</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Updated verdict</h2>
+    <div class="verdict">
+      <div class="score up">B+</div>
+      <p>With this architecture and identity in place, JORMASS would present itself the way its actual scholarship deserves: as a legitimate, actively stewarded regional journal, verifiable in a few clicks rather than taken on faith. The underlying editorial and peer-review practices still need to genuinely match what the site now claims — a redesign can't manufacture rigor it can only stop hiding it.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Redesign is a proposed content architecture and visual direction based on the publicly visible site as of August 11, 2026. It assumes no change to the journal's actual editorial or peer-review practices — only to how those practices are documented and presented.
+</footer>
+
+</body>
+</html>
